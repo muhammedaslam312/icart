@@ -1,11 +1,7 @@
 
-from cgi import print_form
-from multiprocessing import context
 
-
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from store.models import ReviewRating
+
 
 from orders.models import OrderProduct
 from .models import Account, UserProfile 

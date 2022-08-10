@@ -1,9 +1,5 @@
 
 
-from ast import Return
-from multiprocessing import context
-from multiprocessing.sharedctypes import Value
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 

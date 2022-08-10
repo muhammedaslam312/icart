@@ -1,5 +1,4 @@
-import imp
-from multiprocessing import context
+
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from cart.models import CartItem

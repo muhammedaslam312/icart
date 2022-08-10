@@ -1,6 +1,6 @@
-from multiprocessing import context
 
-from django.http import HttpResponse
+
+
 from category.models import Category
 from django.shortcuts import get_object_or_404, render,redirect
 from cart.models import CartItem
@@ -11,7 +11,7 @@ from accounts.models import UserProfile
 
 from cart.views import _cart_id
 
-from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib import messages
 

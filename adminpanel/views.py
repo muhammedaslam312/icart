@@ -1,6 +1,6 @@
-from email import message
-from multiprocessing import context
-from unicodedata import category
+
+
+
 from django.shortcuts import render,redirect
 from accounts.models import Account
 from cart.models import Cart,CartItem
@@ -11,13 +11,13 @@ from django.contrib import messages
 from store.models import Product,Variation,ProductGallery
 from store.forms import ProductForm,VariationForm
 from orders.models import Order,OrderProduct,Payment
-from django.db.models import Sum,Count
+from django.db.models import Sum
 from django.contrib.auth.decorators import login_required 
-from django.db.models.functions import TruncMonth,TruncMinute,TruncDay
+from django.db.models.functions import TruncMinute
 import datetime
-from django.db.models import Q
 
-from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
+
+
 
 # Create your views here.
 
