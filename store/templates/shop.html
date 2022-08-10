@@ -1,0 +1,276 @@
+{% extends 'accounts/main.html' %} 
+{% load static %}
+
+{% block content %}
+ {% include 'accounts/header.html'%}
+    <main>
+        <nav class="navbar navbar-expand-lg navbar-light  ">
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center container  " id="navbarNav">
+              <ul class="navbar-nav ">
+                
+                {% for category in links %}
+                <li class="nav-item ">
+                  <div class="align-items-center">
+                  <a class="nav-link " href="{{ category.get_url }}"><img src="{{ category.cat_image.url }}" class="mx-3" alt="Cinque Terre" width="120" height="78"></a>
+                  <a class="nav-link mx-5" href="{{ category.get_url }}">{{ category.category_name }}</a>
+                  </div> 
+                </li>
+                {% endfor %}
+                
+                
+              </ul>
+            </div>
+          </nav>             
+    <!-- Latest Products Start -->
+    <div class="container">
+        <div class="row">
+            <!--<div class="col-lg-3">
+                <div class="shop__sidebar">
+                    <div class="input-group rounded">
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <span class="input-group-text border-0" id="search-addon">
+                          <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                    
+                </div>
+            </div>-->
+            <div  class="col-lg-12">
+                <section class="popular-items ">
+                    <div class="container">
+                        <div class="row product-btn justify-content-between mb-40">
+                            <div class="properties__button">
+                                <!--Nav Button  -->
+                                <!--<nav>                                                      
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        {% for category in links %}
+                                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="{{ category.get_url }}" role="tab" aria-controls="nav-home" aria-selected="true">{{ category.category_name }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </nav>-->
+                                <!--End Nav Button  -->
+                            </div>
+                            <!-- Grid and List view -->
+                            <div class="grid-list-view">
+                            </div>
+                            <!-- Select items -->
+                            <div class="select-this">
+                                <form action="#">
+                                    <div class="select-itms">
+                                        <select name="select" id="select1">
+                                            <option value="">40 per page</option>
+                                            <option value="">50 per page</option>
+                                            <option value="">60 per page</option>
+                                            <option value="">70 per page</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            {% if 'search' in request.path %}
+                            <h4>Search Results</h4>
+                            <p>{{ product_count}} items found </p>
+                            {% else %}
+                            <p>{{ product_count}} items found </p>
+                            {% endif %}
+                        </div>
+                        <!-- Nav Card -->
+                        <div class="tab-content" id="nav-tabContent">
+                            <!-- card one -->
+                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                <div class="row">
+                                    {% if products %}
+                                    {% for product in products %}
+                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                                        <div class="single-popular-items mb-50 text-center">
+                                            <div class="popular-img">
+                                                <a href="{{ product.get_url }}"><img  src="{{ product.images.url }}" alt=""></a>
+                                               
+                                               
+                                                 
+                                                <div class="img-cap">
+                                                    <a href="{{ product.get_url }}"><span>View Details</span></a>
+                                                </div>
+                                               
+                                                <div class="favorit-items">
+                                                    <a href="{% url 'add_wishlist' product.id  %}"><span class="flaticon-heart"></span></a>
+                                                </div>
+                                            </div>
+                                            <div class="popular-caption">
+                                                <h3><a href="{{ product.get_url }}">{{ product.product_name }}</a></h3>
+                                                <span>{{ product.price }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% else %}
+                                    <h2>No Results Found</h2>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                    </div>
+                </section>
+                <nav class="mt-4 d-flex justify-content-center" aria-label="Page navigation sample">
+                    {% if products.has_other_pages %}
+                    <ul class="pagination">
+                        {% if products.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a></li>
+                        {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        {% endif %}
+            
+                        {% for i in products.paginator.page_range %}
+                          {% if products.number == i %}
+                            <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+                          {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                          {% endif %}
+                        {% endfor %}
+            
+            
+                        {% if products.has_next %}
+                         <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Next</a></li>
+                        {% else %}
+                         <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </div>            
+    <!-- Latest Products End -->
+    <!--? Shop Method Start-->
+    <div class="shop-method-area my-3">
+        <div class="container">
+            <div class="method-wrapper">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="single-method mb-40">
+                            <i class="ti-package"></i>
+                            <h6>Free Shipping Method</h6>
+                            <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="single-method mb-40">
+                            <i class="ti-unlock"></i>
+                            <h6>Secure Payment System</h6>
+                            <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+                        </div>
+                    </div> 
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="single-method mb-40">
+                            <i class="ti-reload"></i>
+                            <h6>Secure Payment System</h6>
+                            <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Shop Method End-->
+    </main>
+    <footer>
+        <!-- Footer Start-->
+        <div class="footer-area footer-padding">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                        <div class="single-footer-caption mb-50">
+                            <div class="single-footer-caption mb-30">
+                                <!-- logo -->
+                                <div class="footer-logo">
+                                    <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
+                                </div>
+                                <div class="footer-tittle">
+                                    <div class="footer-pera">
+                                        <p>Asorem ipsum adipolor sdit amet, consectetur adipisicing elitcf sed do eiusmod tem.</p>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Quick Links</h4>
+                                <ul>
+                                    <li><a href="#">About</a></li>
+                                    <li><a href="#"> Offers & Discounts</a></li>
+                                    <li><a href="#"> Get Coupon</a></li>
+                                    <li><a href="#">  Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>New Products</h4>
+                                <ul>
+                                    <li><a href="#">Woman Cloth</a></li>
+                                    <li><a href="#">Fashion Accessories</a></li>
+                                    <li><a href="#"> Man Accessories</a></li>
+                                    <li><a href="#"> Rubber made Toys</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Support</h4>
+                                <ul>
+                                    <li><a href="#">Frequently Asked Questions</a></li>
+                                    <li><a href="#">Terms & Conditions</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Report a Payment Issue</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer bottom -->
+                <div class="row align-items-center">
+                    <div class="col-xl-7 col-lg-8 col-md-7">
+                        <div class="footer-copy-right">
+                            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>                 
+                        </div>
+                    </div>
+                    <div class="col-xl-5 col-lg-4 col-md-5">
+                        <div class="footer-copy-right f-right">
+                            <!-- social -->
+                            <div class="footer-social">
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.facebook.com/sai4ull"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-behance"></i></a>
+                                <a href="#"><i class="fas fa-globe"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End-->
+    </footer>
+    <!--? Search model Begin -->
+    <div class="search-model-box">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-btn">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Searching key.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search model end -->
+{% endblock %}

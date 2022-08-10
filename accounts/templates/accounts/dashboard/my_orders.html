@@ -1,0 +1,67 @@
+{% extends 'accounts/main.html' %} 
+{% load static %}
+
+{% block content %}
+ {% include 'accounts/header.html'%}
+ 
+ <div class="container">
+	<div class="row text-dark">
+    {% include 'accounts/dashboard/dashboard_slider.html'%}
+	<main class="col-md-9">
+		<article class="card">
+		<header class="card-header">
+			<strong class="d-inline-block mr-3">Your Order History</strong>
+			
+		</header>
+		<div class="card-body bg-light">
+			<div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Mobile</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            
+                            {% for order in orders %}
+                          <tr>
+                            <th > <a class="text-dark" href="{% url 'order_detail' order.order_number %}">{{order.order_number}}</a></th>
+                            <td>{{ order.full_name}}</td>
+                            <td>{{order.phone}}</td>
+                            <td>₹{{order.order_total}}</td>
+                            <td>{{order.created_at}}</td>
+                          </tr>
+                          {% endfor %}
+
+                        </tbody>
+                      </table>
+                </div>
+
+            </div>
+		</div> <!-- card-body .// -->
+
+		</article> <!-- order-group.// --> 
+	</main>
+</div> <!-- row.// -->
+</div>
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+<!-- ========================= FOOTER ========================= -->
+
+<!-- ========================= FOOTER END // ========================= -->
+
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
+
+{% endblock %} 

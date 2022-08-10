@@ -1,0 +1,281 @@
+{% extends 'accounts/main.html' %} 
+{% load static %}
+
+{% block content %}
+ {% include 'accounts/header.html'%}
+    <main>
+        
+        <!--================Checkout Area =================-->
+        <section class="checkout_area ">
+          <div class="container">
+            
+            
+            <div class="billing_details">
+              <div class="row">
+                <div class="col-lg-6">
+                  <h3>Billing Details</h3>
+                  <form class="row contact_form" action="{% url 'place_order' %}" method="POST" >
+                    {% csrf_token %}
+                    <div class="col-md-6 form-group p_star">
+                      <!-- <label for="streetaddress">First_name</label> -->
+                      <input type="text" name="first_name" class="form-control" placeholder="First Name">
+                      
+                    </div>
+                    <div class="col-md-6 form-group p_star">
+                      
+                      <!-- <label for="streetaddress">Last_name</label> -->
+                      <input type="text" name="last_name" class="form-control" placeholder="Last Name">
+                    </div>
+                    
+                    <div class="col-md-6 form-group p_star">
+                      <!-- <label for="streetaddress">Email</label> -->
+                      <input type="text" name="email" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="col-md-6 form-group p_star">
+                      <!-- <label for="streetaddress">Phone_number</label> -->
+                      <input type="text" name="phone" class="form-control" placeholder="Phone Number">
+                    </div>
+                    
+                    <div class="col-md-12 form-group p_star">
+                      <!-- <label for="streetaddress">Address line 01</label> -->
+                      <input type="text" name="address_line_1" class="form-control" placeholder="Address line 01">
+                      
+                    </div>
+                    <div class="col-md-12 form-group p_star">
+                      <!-- <label for="streetaddress">Address line 02</label> -->
+                      <input type="text" name="address_line_2" class="form-control" placeholder="Address line 02">
+                      
+                    </div>
+                    <div class="col-md-4 form-group p_star">
+                      <!-- <label for="streetaddress">Country</label> -->
+                      <input type="text" name="country" class="form-control" placeholder="Country">
+                      
+                    </div>
+                    <div class="col-md-4 form-group p_star">
+                      <!-- <label for="streetaddress">City</label> -->
+                      <input type="text" name="city" class="form-control" placeholder="City">
+                    </div>
+                    
+                    <div class="col-md-4 form-group p_star">
+                      <!-- <label for="streetaddress">State</label> -->
+                      <input type="text" name="state" class="form-control" placeholder="State">
+                    </div>
+                    
+                 
+                    
+                  
+                </div>
+                <div class="col-lg-6">
+                  <div class="table-responsive">
+                    <table class="table ">
+                      <thead class="">
+                        <tr>
+                          <th scope="col">Image</th>
+                          <th scope="col">Product</th>
+                          <th scope="col">Price</th>
+                          <th scope="col">Quantity</th>
+                          <th scope="col">Total</th> 
+                          <th></th>
+                          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for cart_item in cart_items %}
+                        <tr>
+                          <td>
+                            <img style="width: 8em;height: 6em;" src="{{ cart_item.product.images.url }}" alt="" />
+                          </td>
+                          <td>
+                            
+                                <p >{{ cart_item.product.product_name}}</p>
+                                <p class="text-muted small">
+                                  {% if cart_item.variations.all %}
+                                    {% for item in cart_item.variations.all %}
+                                       
+                                  {{ item.variation_category | capfirst }}: {{ item.variation_value | capfirst }} <br>
+                                     {% endfor %}
+                                    
+                                  {% endif %}   
+                                </p>
+                            
+                          </td>
+                          <td>
+                            <p>₹{{ cart_item.product.price}}</p>
+                          </td>
+        
+                          <td>
+                              <!--<span style="width: 25px;" id=""></span> -->
+                              <p>{{ cart_item.quantity }}</p>
+                          </td>
+                           <td>
+                            <p >₹{{cart_item.sub_total}}</p>
+                          </td> 
+                          
+                          
+                          
+                        </tr>
+                        {% endfor %}
+                        
+        
+                          
+                        
+                        
+                      </tbody>
+                    </table>
+                    
+                    
+                  </div>
+                  <div class="col-md-12 form-group p_star">
+                      
+                    <div class="cart-detail cart-total  p-3 p-md-4">
+                      <h3 class="billing-heading mb-4">Cart Total</h3>
+                      <p class="d-flex">
+                                <span>Subtotal</span>
+                                <span class="mx-1">{{ total }}</span>
+                            </p>
+                            <p class="d-flex">
+                                <span>Delivery</span>
+                                <span class="mx-1">$100</span>
+                            </p>
+                            <p class="d-flex">
+                                <span>Tax</span>
+                                <span class="mx-1"> {{ tax }}</span>
+                            </p>
+                            <hr>
+                            <p class="d-flex total-price">
+                                <span>Total</span>
+                                <span>${{ grand_total }}</span>
+                            </p>
+                    </div>
+                    <div class="cart-detail bg-light p-3 p-md-6">
+                        <h3 class="billing-heading mb-4">Payment Method</h3>
+                                  
+                                  <div class="form-group">
+                                      <div class="col-md-12">
+                                          <div class="radio">
+                                            <label><input type="radio" name="optradio" class="mr-2"> Cod</label>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <div class="col-md-12">
+                                          <div class="radio">
+                                            <label><input type="radio" name="optradio" class="mr-2"> Paypal</label>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <div class="col-md-12">
+                                          <div class="checkbox">
+                                            <label><input type="checkbox" value="" class="mr-2" required> I have read and accept the terms and conditions</label>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  
+                                <button type="submit" name="submit" class="btn btn-primary py-3 px-4">Place an order</button>
+                              
+                    </div>
+                  </div>
+                </div>  
+            </div>
+          </div>
+        </form>
+        </section>
+        <!--================End Checkout Area =================-->
+    </main>
+    <footer>
+        <!-- Footer Start-->
+        <div class="footer-area footer-padding">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                        <div class="single-footer-caption mb-50">
+                            <div class="single-footer-caption mb-30">
+                                <!-- logo -->
+                                <div class="footer-logo">
+                                    <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
+                                </div>
+                                <div class="footer-tittle">
+                                    <div class="footer-pera">
+                                        <p>Asorem ipsum adipolor sdit amet, consectetur adipisicing elitcf sed do eiusmod tem.</p>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Quick Links</h4>
+                                <ul>
+                                    <li><a href="#">About</a></li>
+                                    <li><a href="#"> Offers & Discounts</a></li>
+                                    <li><a href="#"> Get Coupon</a></li>
+                                    <li><a href="#">  Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>New Products</h4>
+                                <ul>
+                                    <li><a href="#">Woman Cloth</a></li>
+                                    <li><a href="#">Fashion Accessories</a></li>
+                                    <li><a href="#"> Man Accessories</a></li>
+                                    <li><a href="#"> Rubber made Toys</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Support</h4>
+                                <ul>
+                                    <li><a href="#">Frequently Asked Questions</a></li>
+                                    <li><a href="#">Terms & Conditions</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Report a Payment Issue</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer bottom -->
+                <div class="row align-items-center">
+                    <div class="col-xl-7 col-lg-8 col-md-7">
+                        <div class="footer-copy-right">
+                            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>                   
+                        </div>
+                    </div>
+                    <div class="col-xl-5 col-lg-4 col-md-5">
+                        <div class="footer-copy-right f-right">
+                            <!-- social -->
+                            <div class="footer-social">
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.facebook.com/sai4ull"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-behance"></i></a>
+                                <a href="#"><i class="fas fa-globe"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End-->
+    </footer>
+    <!--? Search model Begin -->
+    <div class="search-model-box">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-btn">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Searching key.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search model end -->
+    {% endblock %}

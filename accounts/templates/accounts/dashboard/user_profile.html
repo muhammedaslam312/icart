@@ -1,0 +1,61 @@
+{% extends 'accounts/main.html' %} 
+{% load static %}
+
+{% block content %}
+ {% include 'accounts/header.html'%}
+ 
+ <div class="container">
+	<div class="row text-dark">
+        {% include 'accounts/dashboard/dashboard_slider.html'%}
+	<main class="col-md-9">
+		<article class="card">
+		<header class="card-header">
+			<strong class="d-inline-block mr-3">Logged in as: </strong>
+			<span>{{user.first_name |capfirst}}</span>
+		</header>
+		<div class="card-body bg-light">
+			<div class="row"> 
+                <div class="col-md-5">
+                    <div class="card bg-light" style="text-align:center;">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Orders</h5>
+                            <h4>{{ orders_count }}</h4>
+                            <a class="text-primary" href="{% url 'my_orders' %}">View Orders</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <div class="card bg-light" style="text-align:center;">
+                        <div class="card-body">
+                            {% if userprofile.profile_picture %}
+                            <img src="{{userprofile.profile_picture.url}}" alt="User Profile Picture" width="50" height="50" style="border-radius:50%"> 
+                            {% endif %}
+                            <p class="mb-0">{{user.email}}</p>
+                            <p>{{user.phone_number}}</p>
+                        </div>
+                    </div>
+                </div>
+			</div> <!-- row.// -->
+		</div> <!-- card-body .// -->
+
+		</article> <!-- order-group.// --> 
+	</main>
+</div> <!-- row.// -->
+</div>
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+<!-- ========================= FOOTER ========================= -->
+
+<!-- ========================= FOOTER END // ========================= -->
+
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
+
+{% endblock %} 
