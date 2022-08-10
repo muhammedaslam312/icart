@@ -45,7 +45,7 @@ def home(request):
         'banners' :banners,
     }
 
-    return render(request,'accounts\index.html',context)
+    return render(request,'accounts/index.html',context)
 
 
 def user_register(request):
@@ -84,7 +84,7 @@ def user_register(request):
     context ={
         'form':form,
     }
-    return render(request,'accounts\signup.html',context)  
+    return render(request,'accounts/signup.html',context)  
 
 def user_login(request):
     if request.method == 'POST':
@@ -153,7 +153,7 @@ def user_login(request):
         else:
             messages.error(request,'invalid login credentials.')    
             return redirect('login')
-    return render(request,'accounts\login.html')
+    return render(request,'accounts/login.html')
 
 @login_required(login_url ='login')
 def user_logout(request):
