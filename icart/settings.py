@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from email.policy import default
 from pathlib import Path
 import socket
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8tdv&+s&r3x07f7&_v1@0u+zo)bq2f+%27-fdw=e_$8gkb#qw#'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
@@ -92,12 +94,12 @@ AUTH_USER_MODEL = 'accounts.Account'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'icart',
-        'USER': 'postgres',
-        'PASSWORD': 'aslam0563',
-        'HOST':'database-1.chmhkx6qocwm.ap-south-1.rds.amazonaws.com',
-        'PORT': '5432'
+        'ENGINE': config('ENGINE'),
+        'NAME': config('NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('PASSWORD'),
+        'HOST': config('HOST',default='localhost'),
+        'PORT':config('PORT',cast=int),
     }
 }
 
@@ -156,10 +158,9 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_QUERYSTRING_AUTH=False
 AWS_S3_FILE_OVERWRITE=True,
 AWS_DEFAULT_ACL=None
-
-AWS_ACCESS_KEY_ID = 'AKIA4WSBDISNDT7XWJX5'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'icart-bucket'
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID') 
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY') 
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME') 
 
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
@@ -169,10 +170,8 @@ MESSAGE_TAGS = {
 
 #SSMTP cofigration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-  
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'muhammedaslamm312@gmail.com'
-EMAIL_HOST_PASSWORD = 'kvyoajfxiottqlxz'
-EMAIL_USE_TLS = True
-
+EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') 
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
