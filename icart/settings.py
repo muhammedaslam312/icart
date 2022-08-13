@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from email.policy import default
 from pathlib import Path
-import socket
+
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
