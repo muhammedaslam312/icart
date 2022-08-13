@@ -6,7 +6,7 @@
 	<!-- Header section -->
 	<!-- <header>-->
         <!-- Header Start -->
-        <div class="header-area">
+        <div class="header-area" style="height: 100px;">
             <div class="main-header header-sticky">
                 <div class="container-fluid">
         
@@ -57,6 +57,7 @@
                                         </ul>
                                     </li>-->
                                     <li><a href="">Contact</a></li>
+                                    {% comment %}
                                   <li>
                                     <div class="col-lg  col-md-6 col-sm-12 col">
                                         <form action="{% url 'search' %}" class="search" method="GET">
@@ -73,6 +74,7 @@
                                     </div> <!-- col.// -->
                                     
                                   </li>   
+                                  {% endcomment %}
                                     
                                     
                                     {% if user.id is None %}
@@ -80,7 +82,7 @@
                                     <li> <a href="{% url 'login' %}"><span class="flaticon-user"></span></a></li>
 
                                     <li><a href="{% url 'wishlist' %}"><span class="flaticon-heart"></span>
-                                        <span class="badge badge-danger" id="wishlist-count">2</span></a> 
+                                        <span class="badge badge-danger" id="wishlist-count"></span></a> 
                                     </li>
                                     <li><a href="{% url 'cart' %}"><span class="flaticon-shopping-cart"></span>
                                         <span class="badge badge-danger" id="cart-count">{{ cart_count }}</span></a> </li>
@@ -92,12 +94,17 @@
 
                                     <li><a>{{ user.first_name }}</a>
                                         <ul class="submenu">
+                                            {% if user.is_superadmin %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{% url 'adminpanel' %}">Admin Panel</a>
+                                            </li>
+                                            {% endif %}
                                             <li><a href="{% url 'user_profile' %}">Profile</a></li>
                                             <li><a href="{% url 'logout' %}">Logout</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="{% url 'wishlist' %}"><span class="flaticon-heart"></span>
-                                        <span class="badge badge-danger" id="wishlist-count">2</span></a> 
+                                        <span class="badge badge-danger" id="wishlist-count"></span></a> 
                                     </li>
                                     <li><a href="{% url 'cart' %}"><span class="flaticon-shopping-cart"></span>
                                         <span class="badge badge-danger" id="cart-count">{{ cart_count }}</span></a>
@@ -115,6 +122,21 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="container-fluid d-flex justify-content-end p-3">
+            <div class="col-lg-4   col-sm-12 col">
+                <form action="{% url 'search' %}" class="search" method="GET">
+                    <div class="input-group w-100">
+                        <input type="text" class="form-control" style="width:60%;border-radius: 10px;" placeholder="Search" name="keyword">
+                        
+                        <div class="input-group-append">
+                          <button class=" btn-dark" type="submit" style="border-radius: 10px;">
+                            <i class="fa fa-search"></i>
+                          </button>
+                        </div>
+                    </div>
+                </form> <!-- search-wrap .end// -->
+            </div> <!-- col.// -->
         </div>
 
     <!-- Header End -->

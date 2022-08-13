@@ -15,7 +15,8 @@ from django.db.models import Sum
 from django.contrib.auth.decorators import login_required 
 from django.db.models.functions import TruncMinute
 import datetime
-
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 
@@ -346,11 +347,11 @@ def order_cancelled(request,order_id):
 @login_required(login_url="login")
 def adminpanel(request):
     if request.user.is_superadmin:
-        total_revenue = round( Order.objects.filter(is_ordered = True).aggregate(sum = Sum('order_total'))['sum'])
+        total_revenue = Order.objects.filter(is_ordered = True).aggregate(sum = Sum('order_total'))['sum']
 
 
-        total_cost= round((total_revenue * .80))
-        total_profit = round(total_revenue - total_cost)  
+        total_cost= (total_revenue * .80)
+        total_profit = total_revenue - total_cost  
         chart_year = datetime.date.today().year
         chart_month = datetime.date.today().month
 
@@ -376,3 +377,30 @@ def adminpanel(request):
         return render (request,'adminpanel/adminpanel.html',context)
     else:
         return redirect('adminlogin')
+
+def psearch(request):
+     if 'keyword' in request.GET:
+          keyword = request.GET['keyword']
+          if keyword:
+               products = Product.objects.order_by('-created_date').filter(
+                    Q(description__icontains = keyword) | Q(product_name__icontains = keyword) 
+                    )
+               paginator = Paginator(products,6)
+               page = request.GET.get('page')
+               paged_proucts = paginator.get_page(page)
+
+              
+          else:
+               products = Product.objects.all()
+               paginator = Paginator(products,9)
+               page = request.GET.get('page')
+               paged_proucts = paginator.get_page(page)
+
+              
+          context = {
+               'products':paged_proucts,
+              
+          }
+          
+          return render(request,'adminpanel/product.html',context)
+     return redirect('store_table')       

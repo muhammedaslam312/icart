@@ -35,12 +35,14 @@ import requests
 
 def home(request):
 
-    banners = Banner.objects.all()
+    active_banner = Banner.objects.filter(is_first=True)
+    banners = Banner.objects.filter(is_first=False)
     products = Product.objects.all()
     
     
 
     context ={
+        'active_banner' : active_banner,
         'products':products,
         'banners' :banners,
     }
@@ -311,6 +313,7 @@ def change_password(request):
 def order_detail(request, order_id):
     order_detail = OrderProduct.objects.filter(order__order_number=order_id)
     order = Order.objects.get(order_number=order_id)
+
     sub_total = 0
     for i in order_detail:
         sub_total += i.product_price * i.quantity
@@ -321,3 +324,35 @@ def order_detail(request, order_id):
         'sub_total' : sub_total,
     }
     return render(request, 'accounts/dashboard/order_detail.html',context)   
+
+def order_track(request, order_id):
+    order_detail = OrderProduct.objects.filter(order__order_number=order_id)
+    order = Order.objects.get(order_number=order_id)
+    try:
+        if order.status == 'Accepted':
+            order_detail.is_shipped = True
+        else:
+            order_detail.is_shipped = False
+    except:
+        pass
+    try:
+        if order.status == 'Completed':
+            order_detail.is_delivered = True
+            order_detail.is_shipped = True
+        else:
+            order_detail.is_delivered = False
+    except:
+        pass
+
+    sub_total = 0
+    for i in order_detail:
+        sub_total += i.product_price * i.quantity
+    
+    context = {
+        'order_detail' : order_detail,
+        'order' : order,
+        'sub_total' : sub_total,
+        'is_shipped': order_detail.is_shipped,
+        'is_delivered': order_detail.is_delivered,
+    }
+    return render(request, 'accounts/dashboard/order_track.html',context)       

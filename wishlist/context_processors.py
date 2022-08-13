@@ -15,7 +15,7 @@ def counter(request):
             else:
                 wishlist_items = WishlistItem.objects.all().filter(wishlist=wishlist[:1])
             for wishlist_item in wishlist_items:
-                wishlist_count += wishlist_item.quantity
+                wishlist_count += wishlist_item
         except Wishlist.DoesNotExist:
             wishlist_count = 0
     return dict(wishlist_count=wishlist_count)

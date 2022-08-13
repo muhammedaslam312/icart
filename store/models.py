@@ -24,6 +24,8 @@ class Product(models.Model):
     category      = models.ForeignKey(Category,on_delete=models.CASCADE)
     created_date  = models.DateField(auto_now_add=True)
     modified_date = models.DateField(auto_now=True)
+    is_shipped = models.BooleanField(default=False)
+    is_delivered = models.BooleanField(default=False)
 
     @property
     def discount(self):

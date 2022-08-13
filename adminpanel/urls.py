@@ -32,6 +32,8 @@ urlpatterns = [
    path('order_completed/<int:order_id>',views.order_completed,name="order_completed"),
    path('order_cancelled/<int:order_id>',views.order_cancelled,name="order_cancelled"),
 
+    path('psearch/',views.psearch,name='psearch'),
+
 
    
    

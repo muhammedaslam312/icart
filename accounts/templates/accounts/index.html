@@ -14,12 +14,22 @@
             </div> -->
 
         </div>
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div id="carouselExampleControls" class="carousel slide p-3 my-3" data-ride="carousel">
             <div class="carousel-inner">
-              
+                {% comment %}
+              {% for active_banner in active_banners %}
+                
+              <div class="carousel-item active ">
+                <img class="d-block w-100"  src="{{ active_banner.banner.url }}" alt="First slide">
+              </div>
+                 
+              {% endfor %}
+              {% endcomment %}
+             
               <div class="carousel-item active">
                 <img class="d-block w-100"  src="{% static 'assets/img/banner/mxw_1366,f_auto (2).avif' %}" alt="First slide">
               </div>
+             
               
               
               {% for banner in banners %}
@@ -59,10 +69,10 @@
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                         <div class="single-new-pro mb-30 text-center border border-light">
                             <div class="product-img">
-                                <img  src="{{ product.images.url }}" alt="">
+                                <a href="{{ product.get_url }}"><img  src="{{ product.images.url }}" alt=""></a>
                             </div>
                             <div class="product-caption">
-                                <h3><a href="product_details.html">{{ product.product_name }}</a></h3>
+                                <h3><a href="{{ product.get_url }}">{{ product.product_name }}</a></h3>
                                 <span>${{ product.price }}</span>
                             </div>
                         </div>
@@ -78,24 +88,24 @@
                 <div class="row">
                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6">
                         <div class="single-gallery mb-30">
-                            <div class="gallery-img big-img" style="background-image: url( '/static/assets/img/gallery/gallery1.png' );"></div>
+                            <div class="gallery-img big-img" style="background-image: url( '/static/assets/img/gallery/static1.jfif' );"></div>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
                         <div class="single-gallery mb-30">
-                            <div class="gallery-img big-img" style="background-image: url(/static/assets/img/gallery/gallery2.png);"></div>
+                            <div class="gallery-img big-img" style="background-image: url(/static/assets/img/gallery/static2.jfif);"></div>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-4 col-md-12">
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6">
                                 <div class="single-gallery mb-30">
-                                    <div class="gallery-img small-img" style="background-image: url(/static/assets/img/gallery/gallery3.png);"></div>
+                                    <div class="gallery-img small-img" style="background-image: url(/static/assets/img/gallery/static3.jfif);"></div>
                                 </div>
                             </div>
                             <div class="col-xl-12 col-lg-12  col-md-6 col-sm-6">
                                 <div class="single-gallery mb-30">
-                                    <div class="gallery-img small-img" style="background-image: url(/static/assets/img/gallery/gallery4.png);"></div>
+                                    <div class="gallery-img small-img" style="background-image: url(/static/assets/img/gallery/static4.jfif);"></div>
                                 </div>
                             </div>
                         </div>
@@ -122,16 +132,16 @@
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                         <div class="single-popular-items mb-50 text-center">
                             <div class="popular-img">
-                                <img style="width: 100%;height: 15vw;object-fit: cover;" src="{{ product.images.url }}" alt="">
+                                <img  src="{{ product.images.url }}" alt="">
                                 <div class="img-cap">
-                                    <span>Add to cart</span>
+                                    <a href="{{ product.get_url }}"><span>View details</span></a>
                                 </div>
                                 <div class="favorit-items">
                                     <span class="flaticon-heart"></span>
                                 </div>
                             </div>
                             <div class="popular-caption">
-                                <h3><a href="product_details.html">{{ product.product_name }}</a></h3>
+                                <h3><a href="{{ product.get_url }}">{{ product.product_name }}</a></h3>
                                 <span>$ 45,743</span>
                             </div>
                         </div>
@@ -155,28 +165,28 @@
                 <div class="row align-items-center justify-content-between padding-130">
                     <div class="col-lg-5 col-md-6">
                         <div class="watch-details mb-40">
-                            <h2>Watch of Choice</h2>
-                            <p>Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse.</p>
-                            <a href="shop.html" class="btn">Show Watches</a>
+                            <h2>Iphone for choices</h2>
+                            <p>Bundle four Apple services. And enjoy more for less.</p>
+                            <a href="{% url 'shop'%}" class="btn">Show Products</a>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-10">
                         <div class="choice-watch-img mb-40">
-                            <img src="{% static 'assets/img/gallery/choce_watch1.png' %}" alt="">
+                            <img src="{% static 'assets/img/gallery/bottom1.jpg' %}" alt="">
                         </div>
                     </div>
                 </div>
                 <div class="row align-items-center justify-content-between">
                     <div class="col-lg-6 col-md-6 col-sm-10">
                         <div class="choice-watch-img mb-40">
-                            <img src="{% static 'assets/img/gallery/choce_watch2.png' %}" alt="">
+                            <img src="{% static 'assets/img/gallery/bottom2.jpg' %}" alt="">
                         </div>
                     </div>
                     <div class="col-lg-5 col-md-6">
                         <div class="watch-details mb-40">
-                            <h2>Watch of Choice</h2>
-                            <p>Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse.</p>
-                            <a href="shop.html" class="btn">Show Watches</a>
+                            <h2>AirPods</h2>
+                            <p>Explore all AirPods models and find the best ones for you.</p>
+                            <a href="{% url 'shop'%}" class="btn">Show Products</a>
                         </div>
                     </div>
                 </div>
@@ -278,11 +288,7 @@
                 <!-- Footer bottom -->
                 <div class="row align-items-center">
                     <div class="col-xl-7 col-lg-8 col-md-7">
-                        <div class="footer-copy-right">
-                            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>                  
-                        </div>
+                        
                     </div>
                     <div class="col-xl-5 col-lg-4 col-md-5">
                         <div class="footer-copy-right f-right">
