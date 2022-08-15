@@ -3,7 +3,68 @@
 {% load static %}
 
 {% block content %}
-{% include 'adminpanel/includes/navbar.html' %}
+{% load static %}
+<!-- Topbar -->
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+    <!-- Sidebar Toggle (Topbar) -->
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
+
+    <!-- Topbar Search -->
+    <form
+        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+        <div class="input-group"> 
+            <form action="" class="search" method="GET"></form>
+
+            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                aria-label="Search" aria-describedby="basic-addon2" name="keyword">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
+            </div>
+            <form>
+        </div>
+    </form>
+
+    <!-- Topbar Navbar -->
+    <ul class="navbar-nav ml-auto">
+
+        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+        <li class="nav-item dropdown no-arrow d-sm-none">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+            </a>
+            <!-- Dropdown - Messages -->
+            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100 navbar-search">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small"
+                            placeholder="Search for..." aria-label="Search"
+                            aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </li>
+
+        
+       
+
+       
+        
+
+    </ul>
+
+</nav>
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -49,15 +110,17 @@
                     {% if orders %}
                         {% for order in orders %}
                             <tr>
-                                <td>{{order.order_number}}</td>
+                                <td> <a class="" href="{% url 'admin_order_detail' order.order_number %}">{{order.order_number}}</a></td>
                                 <td>{{order.email}}</td>
                                 <td>{{order.phone}}</td>
                                 <td>${{order.order_total}}</td>
                                 <td>{{order.created_at}}</td>
                                 <td>{{order.address_line_1}}</td>
                                 <td class="text-center">
-                                    <a href="{% url 'order_accepted' order.id %}" class="btn btn-warning">Accept order</a>
-                                    <a href="{% url 'order_cancelled' order.id %}" class="btn btn-danger">Cancel order</a>
+                                    
+                                    <a href="{% url 'order_accepted' order.id %}" class="btn btn-success" onclick="return confirm('Do you want Accept {{order.order_number}} ! ,are you sure?')">Accept</a> 
+                                   
+                                    <a href="{% url 'order_cancelled' order.id %}" class="btn btn-danger" onclick="return confirm('Do you want Cancel{{order.order_number}} ! ,are you sure?')">Cancel </a> 
 
                                 </td>
 

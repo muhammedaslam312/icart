@@ -3,7 +3,83 @@
 {% load static %}
 
 {% block content %}
-{% include 'adminpanel/includes/navbar.html' %}
+{% load static %}
+<!-- Topbar -->
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+    <!-- Sidebar Toggle (Topbar) -->
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
+
+    <!-- Topbar Search -->
+    <form
+        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+        <div class="input-group"> 
+            <form action="{% url 'search' %}" class="search" method="GET"></form>
+
+            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                aria-label="Search" aria-describedby="basic-addon2" name="keywords">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
+            </div>
+            <form>
+        </div>
+    </form>
+
+    <!-- Topbar Navbar -->
+    <ul class="navbar-nav ml-auto">
+
+        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+        <li class="nav-item dropdown no-arrow d-sm-none">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+            </a>
+            <!-- Dropdown - Messages -->
+            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100 navbar-search">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small"
+                            placeholder="Search for..." aria-label="Search"
+                            aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </li>
+
+        
+       
+
+       
+        
+
+    </ul>
+
+</nav>
+<div class="container-fluid d-flex justify-content-end p-3">
+    <div class="col-lg-4   col-sm-12 col">
+        <form action="{% url 'productsearch' %}" class="search" method="GET">
+            <div class="input-group w-100">
+                <input type="text" class="form-control" style="width:60%;border-radius: 10px;" placeholder="Search" name="keyword">
+                
+                <div class="input-group-append">
+                  <button class=" btn-dark" type="submit" style="border-radius: 10px;">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+            </div>
+        </form> <!-- search-wrap .end// -->
+    </div> <!-- col.// -->
+</div>
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -16,6 +92,12 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Order Product -list</h6>
+        {% if 'search' in request.path %}
+                            <h4>Search Results</h4>
+                            <p>{{ product_count}} items found </p>
+                            {% else %}
+                            <p>{{ product_count}} items found </p>
+                            {% endif %}
     </div>
     <div class="card-body">
         <div class="table-responsive">

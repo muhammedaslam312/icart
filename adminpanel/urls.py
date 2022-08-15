@@ -31,8 +31,13 @@ urlpatterns = [
    path('order_accepted/<int:order_id>',views.order_accepted,name="order_accepted"),
    path('order_completed/<int:order_id>',views.order_completed,name="order_completed"),
    path('order_cancelled/<int:order_id>',views.order_cancelled,name="order_cancelled"),
+   path('order_detail/<int:order_id>/', views.admin_order_detail, name='admin_order_detail'),
 
-    path('psearch/',views.psearch,name='psearch'),
+   path('productsearch/',views.productsearch,name="productsearch"),
+
+
+
+
 
 
    

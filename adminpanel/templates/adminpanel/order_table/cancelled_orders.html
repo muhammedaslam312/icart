@@ -34,12 +34,12 @@
                
 
                 <tbody>
-
+                    
                     {% if accepted_orders %}
                     
                         {% for order in accepted_orders %}
                             <tr>
-                                <td>{{order.order_number}}</td>
+                                <td> <a class="" href="{% url 'admin_order_detail' order.order_number %}">{{order.order_number}}</a></td>
                                 <td>{{order.email}}</td>
                                 <td>{{order.phone}}</td>
                                 <td>${{order.order_total}}</td>

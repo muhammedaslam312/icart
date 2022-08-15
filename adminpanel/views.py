@@ -2,7 +2,7 @@
 
 
 from django.shortcuts import render,redirect
-from accounts.models import Account
+from accounts.models import Account,UserProfile
 from cart.models import Cart,CartItem
 from category.models import Category
 from category.forms import CategoryForm
@@ -345,6 +345,22 @@ def order_cancelled(request,order_id):
         return render(request,'adminpanel/order_table/order_cancelled.html')
 
 @login_required(login_url="login")
+def admin_order_detail(request, order_id):
+    order_detail = OrderProduct.objects.filter(order__order_number=order_id)
+    order = Order.objects.get(order_number=order_id)
+
+    sub_total = 0
+    for i in order_detail:
+        sub_total += i.product_price * i.quantity
+    
+    context = {
+        'order_detail' : order_detail,
+        'order' : order,
+        'sub_total' : sub_total,
+    }
+    return render(request,'adminpanel/order_table/admin_order_detail.html',context)
+
+@login_required(login_url="login")
 def adminpanel(request):
     if request.user.is_superadmin:
         total_revenue = Order.objects.filter(is_ordered = True).aggregate(sum = Sum('order_total'))['sum']
@@ -354,7 +370,7 @@ def adminpanel(request):
         total_profit = total_revenue - total_cost  
         chart_year = datetime.date.today().year
         chart_month = datetime.date.today().month
-
+     
         #getting daily revenue
         daily_revenue = Order.objects.filter(                     
             created_at__year=chart_year,created_at__month=chart_month
@@ -365,7 +381,8 @@ def adminpanel(request):
         for i in daily_revenue:
             day.append(i['day'].minute)
             revenue.append(int(i['sum']))
-
+        
+        userprofile = UserProfile.objects.get(user=request.user)
        
         context = {
             'total_revenue' : total_revenue,
@@ -373,34 +390,47 @@ def adminpanel(request):
             'total_profit' : total_profit,
             'day' : day,
             'revenue' : revenue,
+            'userprofile' : userprofile,
         }
         return render (request,'adminpanel/adminpanel.html',context)
     else:
         return redirect('adminlogin')
 
-def psearch(request):
-     if 'keyword' in request.GET:
-          keyword = request.GET['keyword']
-          if keyword:
-               products = Product.objects.order_by('-created_date').filter(
-                    Q(description__icontains = keyword) | Q(product_name__icontains = keyword) 
-                    )
-               paginator = Paginator(products,6)
-               page = request.GET.get('page')
-               paged_proucts = paginator.get_page(page)
+def variationsearch(request):
+    variations=[]
+    if 'keywordss' in request.GET:
+        keywordss=request.GET['keywordss']
+    
+        if keywordss:
+            variations=Variation.objects.order_by('-created_date').filter(Q(variation_category_icontains=keywordss)|Q(variation_value_icontains=keywordss))
+        context={
+            'variations':variations,
+        }
+    return render(request,'adminpanel/store_table/variations.html',context)
 
-              
-          else:
-               products = Product.objects.all()
-               paginator = Paginator(products,9)
-               page = request.GET.get('page')
-               paged_proucts = paginator.get_page(page)
 
-              
-          context = {
-               'products':paged_proucts,
-              
-          }
-          
-          return render(request,'adminpanel/product.html',context)
-     return redirect('store_table')       
+def productsearch(request):
+    products=[]
+    if 'keywords' in request.GET:
+        keywords=request.GET['keywords']
+    
+        if keywords:
+            products=Product.objects.order_by('-created_date').filter(Q(product_name__icontains=keywords))
+            paginator = Paginator(products,3)
+            page = request.GET.get('page')
+            #paged_proucts = paginator.get_page(page)
+
+            product_count = products.count()
+        else:
+            products = Product.objects.all()
+            paginator = Paginator(products,9)
+            page = request.GET.get('page')
+           # paged_proucts = paginator.get_page(page)
+
+            product_count = products.count()
+        context={
+            'products':products,
+            'product_count' : product_count,
+        }
+        return render(request,'adminpanel/store_table/products.html',context)
+    
