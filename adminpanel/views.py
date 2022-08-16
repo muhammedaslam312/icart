@@ -312,6 +312,9 @@ def order_table(request,id):
             return render(request,'adminpanel/order_table/completed_orders.html',context)
         elif id==4:
             return render(request,'adminpanel/order_table/cancelled_orders.html',context)
+        elif id==5:
+            return render(request,'adminpanel/order_table/order_products.html',context)    
+
         else:
             return render(request,'adminpanel/order_table/payments.html',context)
     else:
@@ -406,7 +409,7 @@ def variationsearch(request):
         keywordss=request.GET['keywordss']
     
         if keywordss:
-            variations=Variation.objects.order_by('-created_date').filter(Q(variation_category_icontains=keywordss)|Q(variation_value_icontains=keywordss))
+            variations=Variation.objects.order_by('-created_date').filter(Q(variation_category__icontains=keywordss)|Q(variation_value__icontains=keywordss))
         context={
             'variations':variations,
         }
@@ -437,6 +440,33 @@ def productsearch(request):
             'product_count' : product_count,
         }
         return render(request,'adminpanel/store_table/products.html',context)
+        
+def adminuserdetails(request):
+    user=[]
+    if 'keywordss' in request.GET:
+        
+        keyword=request.GET['keywordss']
+        if keyword:
+            user=Account.objects.filter(Q(first_name__icontains=keyword)|Q(last_name__icontains=keyword)|Q(email__icontains=keyword)|Q(phone_number__icontains=keyword)|Q(username__icontains=keyword))
+            print(user)
+            context={
+                'active_users':user,
+                
+            }
+    return render(request,'adminpanel/admin_accounts/active_users.html',context)
+
+def ordersearch(request):
+    Orderproduct=OrderProduct.objects.all()
+    
+    if 'keywords' in request.GET:
+        keyword=request.GET['keywords']
+    if keyword:
+        orders=Order.objects.order_by('-created_at').filter(Q(order_number__icontains=keyword)|Q(email__icontains=keyword))
+    context={
+        'orders':orders,
+        'order_products':Orderproduct,
+    }
+    return render(request,'adminpanel/order_table/orders.html',context)
 
 @login_required(login_url="login")
 def home_table(request):

@@ -39,6 +39,9 @@ urlpatterns = [
    path('order_detail/<int:order_id>/', views.admin_order_detail, name='admin_order_detail'),
 
    path('productsearch/',views.productsearch,name="productsearch"),
+   path('variation_search/',views.variationsearch,name="variationsearch"),
+   path('adminuserdetails/',views.adminuserdetails,name="adminuserdetails"),
+   path('ordersearch/',views.ordersearch,name="ordersearch"),
  
 
 
