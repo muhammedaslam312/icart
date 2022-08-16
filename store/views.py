@@ -7,7 +7,7 @@ from cart.models import CartItem
 from .models import Product, ProductGallery,ReviewRating
 from .forms import ReviewForm
 from orders.models import OrderProduct
-from accounts.models import UserProfile
+
 
 from cart.views import _cart_id
 
