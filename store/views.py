@@ -63,7 +63,10 @@ def product_detail(request, category_slug, product_slug):
      reviews = ReviewRating.objects.filter(product_id=single_product.id, status=True)
      
      if request.user.is_authenticated:
-          userprofile = UserProfile.objects.get(user=request.user)
+          try:
+               userprofile = UserProfile.objects.get(user=request.user)
+          except:
+               userprofile = None     
      else:
           userprofile = None     
      
