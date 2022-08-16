@@ -62,14 +62,14 @@ def product_detail(request, category_slug, product_slug):
      
      reviews = ReviewRating.objects.filter(product_id=single_product.id, status=True)
      
-     if request.user.is_authenticated:
-          try:
-               userprofile = UserProfile.objects.get(user=request.user)
-          except:
-               userprofile = None  
+     # if request.user.is_authenticated:
+     #      try:
+     #           userprofile = UserProfile.objects.get(user=request.user)
+     #      except:
+     #           userprofile = None  
              
-     else:
-          userprofile = None     
+     # else:
+     #      userprofile = None     
      
      
      #get the prodcut gallery
@@ -81,7 +81,7 @@ def product_detail(request, category_slug, product_slug):
           'product_gallery': product_gallery,
           'orderproduct' : orderproduct,
           'reviews' : reviews,
-          'userprofile' : userprofile,
+          # 'userprofile' : userprofile,
           
      }    
      return render(request,'product_details.html', context)
