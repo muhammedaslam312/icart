@@ -66,7 +66,9 @@ def product_detail(request, category_slug, product_slug):
           try:
                userprofile = UserProfile.objects.get(user=request.user)
           except:
-               userprofile = None     
+               userprofile = None  
+          finally:
+               pass        
      else:
           userprofile = None     
      
