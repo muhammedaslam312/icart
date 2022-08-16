@@ -5,6 +5,11 @@ from django.urls import path
 urlpatterns = [
    path('',views.adminpanel,name='adminpanel'),
    path('admin_login/',views.admin_login,name="admin_login"),
+   path('banners/',views.home_table,name="home_table"),
+   path('add_banners/',views.add_banners,name="add_banners"),
+   path('edit_banners/<int:id>/',views.edit_banners,name='edit_banners'),
+   path('delete_banners/<int:id>/',views.delete_banner,name='delete_banners'),
+
    
    path('user_accounts_table/<int:id>/',views.user_accounts_table,name="user_accounts_table"),
   
@@ -34,6 +39,7 @@ urlpatterns = [
    path('order_detail/<int:order_id>/', views.admin_order_detail, name='admin_order_detail'),
 
    path('productsearch/',views.productsearch,name="productsearch"),
+ 
 
 
 

@@ -8,9 +8,11 @@ from category.models import Category
 from category.forms import CategoryForm
 from django.template.defaultfilters import slugify
 from django.contrib import messages
+from home.models import Banner
 from store.models import Product,Variation,ProductGallery
 from store.forms import ProductForm,VariationForm
 from orders.models import Order,OrderProduct,Payment
+from home.forms import BannerForm
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required 
 from django.db.models.functions import TruncMinute
@@ -176,13 +178,15 @@ def add_product(request):
                 slug = slugify(product_name)
                 product.slug = slug
                 product.save()
-
-                images = request.FILES.getlist('images')
-                for image in images:
-                    ProductGallery.objects.create(
-                        image = image,
-                        product = product,
-                    )
+                try:
+                    images = request.FILES.getlist('images')
+                    for image in images:
+                        ProductGallery.objects.create(
+                            image = image,
+                            product = product,
+                        )
+                except:
+                    pass        
 
                 messages.success(request,'New product added successfully')
                 return redirect('store_table',id=1)
@@ -433,4 +437,63 @@ def productsearch(request):
             'product_count' : product_count,
         }
         return render(request,'adminpanel/store_table/products.html',context)
+
+@login_required(login_url="login")
+def home_table(request):
+    if request.user.is_superadmin:
+        banners = Banner.objects.all()
+       
+        context = {
+           'banners' : banners,
+        }
+        
+        return render(request,'adminpanel/home_table/Banner.html',context)
+      
+    else: 
+        return redirect ('home')
+
+@login_required(login_url="login")
+def add_banners(request):
+    if request.user.is_superadmin:
+        form = BannerForm()
+        if request.method == 'POST':
+            form = BannerForm(request.POST,request.FILES)
+            print(form)
+            if form.is_valid():
+                form.save()
+                return redirect('home_table')
+        else:
+            form = BannerForm()
+        context = {
+            'form' : form,
+        }
+        return render(request,'adminpanel/home_table/add_banner.html',context)
+    else:
+        return redirect('home')        
     
+@login_required(login_url="login")
+def edit_banners(request,id):
+    if request.user.is_superadmin:
+        carousel = Banner.objects.get(id=id)
+        if request.method =='POST':
+            form = BannerForm(request.POST,instance=carousel)
+            if form.is_valid():
+                form.save()
+                return redirect('home_table')
+        else:
+            form = BannerForm(instance=carousel)
+        context = {
+            'form' : form,
+        }
+        return render (request,'adminpanel/home_table/add_banner.html',context)
+    else:
+        return redirect ('home')
+
+@login_required(login_url="login")
+def delete_banner(request,id):
+    if request.user.is_superadmin:
+        banner = Banner.objects.get(id=id)
+        banner.delete()
+        return redirect('home_table')
+    else:
+        return redirect ('home')        

@@ -46,7 +46,7 @@
                                             <div class="ml-2"> <small class="dis-price" style="text-decoration: line-through;">₹{{ single_product.price }}</small> <span class="border">{{ single_product.discount_percent }}% OFF</span> </div>
                                         </div>
                                     </div>
-                                    <p class="about">Shop from a wide range of t-shirt from orianz. Pefect for your everyday use, you could pair it with a stylish pair of jeans or trousers complete the look.</p>
+                                    <p class="about">{{  single_product.product_description}}</p>
                                     {% comment %}
                                     <div class="mt-4 mb-3">
                                         <p>choose color</p>
@@ -143,7 +143,7 @@
                             {% endif %}
                             <br>
                         </div>
-                        {% include 'accounts/alerts.html' %}
+                       
                     </form>
             
                     <header class="section-heading">

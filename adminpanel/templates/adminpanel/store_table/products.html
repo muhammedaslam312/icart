@@ -13,19 +13,15 @@
     </button>
 
     <!-- Topbar Search -->
-    <form
-        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <div class="input-group"> 
-            <form action="{% url 'search' %}" class="search" method="GET"></form>
-
-            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                aria-label="Search" aria-describedby="basic-addon2" name="keywords">
+    <form action= {% url 'productsearch' %} method='GET' class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="background: #f8f9fa;">
+        <div class="input-group">
+            <input type="text" class="form-control bg-light border-2 small" placeholder="Search for..."
+                aria-label="Search" name="keywords" aria-describedby="basic-addon2">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search fa-sm"></i>
+                <button class="btn btn-dark border-2" type="submit">
+                    <i class="fa fa-search fa-sm"></i>
                 </button>
             </div>
-            <form>
         </div>
     </form>
 
@@ -65,21 +61,7 @@
     </ul>
 
 </nav>
-<div class="container-fluid d-flex justify-content-end p-3">
-    <div class="col-lg-4   col-sm-12 col">
-        <form action="{% url 'productsearch' %}" class="search" method="GET">
-            <div class="input-group w-100">
-                <input type="text" class="form-control" style="width:60%;border-radius: 10px;" placeholder="Search" name="keyword">
-                
-                <div class="input-group-append">
-                  <button class=" btn-dark" type="submit" style="border-radius: 10px;">
-                    <i class="fa fa-search"></i>
-                  </button>
-                </div>
-            </div>
-        </form> <!-- search-wrap .end// -->
-    </div> <!-- col.// -->
-</div>
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
