@@ -47,6 +47,8 @@ def product_detail(request, category_slug, product_slug):
      try:
          single_product = Product.objects.get(category__slug=category_slug, slug=product_slug)
          in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(request), product=single_product).exists()
+
+         related_products = Product.objects.filter(category=single_product.category).exclude(slug=product_slug)[:4]
          
          
      except Exception as e:
@@ -81,6 +83,7 @@ def product_detail(request, category_slug, product_slug):
           'product_gallery': product_gallery,
           'orderproduct' : orderproduct,
           'reviews' : reviews,
+          'related_products' : related_products,
           # 'userprofile' : userprofile,
           
      }    

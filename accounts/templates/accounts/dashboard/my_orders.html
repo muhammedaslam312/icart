@@ -37,7 +37,7 @@
                             <td>₹{{order.order_total}}</td>
                             <td>{{order.created_at}}</td>
                             <td>
-                              <a href="{% url 'order_track' order.order_number %}"><button>view</button></a>
+                              <a class="btn-link" href="{% url 'order_track' order.order_number %}">view</a>
                             </td>
                           </tr>
                           {% endfor %}
